@@ -2,6 +2,10 @@
 
 #pragma once
 
+#include "../../../../webrtc-native/src/examples/libconductor/conductor.h"
+
+#include <optional>
+
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ScreenCasterComponent.generated.h"
@@ -25,4 +29,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "ScreenCaster", META = (DisplayName = "Connect"))
 	bool Connect();
+
+private:
+	std::optional<conductor::observer_handle> observer{};
 };

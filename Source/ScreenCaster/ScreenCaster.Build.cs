@@ -26,7 +26,6 @@ public class ScreenCaster : ModuleRules
 			new string[]
 			{
 				"Core",
-				"WebRTC"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -36,6 +35,7 @@ public class ScreenCaster : ModuleRules
 			new string[]
 			{
 				"CoreUObject",
+				"Projects",
 				"Engine",
 				"Slate",
 				"SlateCore",
@@ -50,5 +50,9 @@ public class ScreenCaster : ModuleRules
 				// ... add any modules that your module loads dynamically here ...
 			}
 			);
-	}
+
+        PublicAdditionalLibraries.Add(System.IO.Path.Combine(ModuleDirectory, "..", "ThirdParty", "libconductor.dll.lib"));
+        RuntimeDependencies.Add("$(PluginDir)/ThirdParty/libconductor.dll");
+        PublicDelayLoadDLLs.Add("libconductor.dll");
+    }
 }
