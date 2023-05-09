@@ -38,6 +38,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ScreenCaster", META = (DisplayName = "GetTexture"))
 		UDynamicTexture* GetTexture();
 
+	UPROPERTY()
 	UDynamicTexture* texture{ NewObject<UDynamicTexture>() };
 
 	UPROPERTY(BlueprintAssignable)
