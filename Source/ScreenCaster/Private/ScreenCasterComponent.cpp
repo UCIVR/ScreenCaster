@@ -39,11 +39,15 @@ void UScreenCasterComponent::TickComponent(
 bool UScreenCasterComponent::Connect(const FString& url)
 {
 	UE_LOG(LogTemp, Log, TEXT("Connecting..."));
+	if (url.IsEmpty())
+		return false;
+
 	OnTestEvent.Broadcast();
 	observer.emplace(this, [](void* self, auto... others) {
 		reinterpret_cast<UScreenCasterComponent*>(self)->on_video_frame(others...);
 	});
 	observer->start(TCHAR_TO_ANSI(*url));
+	
 	return true;
 }
 
