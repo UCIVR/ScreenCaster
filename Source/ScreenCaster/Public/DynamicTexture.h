@@ -22,21 +22,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Dynamic Texture")
 		void Initialize(int32 InWidth, int32 InHeight, FLinearColor InClearColor, TextureFilter FilterMethod = TextureFilter::TF_Nearest);
 
-	// Sets a specified pixel to a color
-	UFUNCTION(BlueprintCallable, Category = "Dynamic Texture")
-		void SetPixel(int32 X, int32 Y, FLinearColor Color);
-
 	// Fills the texture with a given color
 	UFUNCTION(BlueprintCallable, Category = "Dynamic Texture")
 		void Fill(FLinearColor Color);
-
-	// Fills a rectangle area of the texture with a given color
-	UFUNCTION(BlueprintCallable, Category = "Dynamic Texture")
-		void FillRect(int32 X, int32 Y, int32 Width, int32 Height, FLinearColor Color);
-
-	// Draws a line between two points
-	UFUNCTION(BlueprintCallable, Category = "Dynamic Texture")
-		void DrawLine(int32 X1, int32 Y1, int32 X2, int32 Y2, FLinearColor Color);
 
 	// Clears the canvas (same as filling with the clear color)
 	UFUNCTION(BlueprintCallable, Category = "Dynamic Texture")

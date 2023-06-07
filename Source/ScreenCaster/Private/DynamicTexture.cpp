@@ -31,15 +31,6 @@ void UDynamicTexture::Initialize(int32 InWidth, int32 InHeight, FLinearColor InC
 	Clear();
 }
 
-void UDynamicTexture::SetPixel(int32 X, int32 Y, FLinearColor Color)
-{
-	// Get the pointer of the specified pixel
-	uint8* Ptr = GetPointerToPixel(X, Y);
-
-	// Set the pixel (note that linear color uses floats between 0..1, but a uint8 ranges from 0..255)
-	SetPixelInternal(Ptr, Color.R * 255, Color.G * 255, Color.B * 255, Color.A * 255);
-}
-
 void UDynamicTexture::Fill(FLinearColor Color)
 {
 	// Get the base pointer of the pixel buffer
@@ -53,45 +44,6 @@ void UDynamicTexture::Fill(FLinearColor Color)
 
 		// Advance to the next pixel
 		Ptr += DYNAMIC_TEXTURE_BYTES_PER_PIXEL;
-	}
-}
-
-void UDynamicTexture::FillRect(int32 X, int32 Y, int32 Width, int32 Height, FLinearColor Color)
-{
-	// Will hold the current pixel
-	uint8* Ptr = NULL;
-
-	// Loop over the Y and X region
-	for (int y = Y; y < Y + Height; y++)
-	{
-		for (int x = X; x < X + Width; x++)
-		{
-			// Get the current pixel pointer
-			Ptr = GetPointerToPixel(x, y);
-
-			// Set the pixel
-			SetPixelInternal(Ptr, Color.R * 255, Color.G * 255, Color.B * 255, Color.A * 255);
-		}
-	}
-}
-
-void UDynamicTexture::DrawLine(int32 X1, int32 Y1, int32 X2, int32 Y2, FLinearColor Color)
-{
-	// Bresenham's line algorithm taken from here: http://members.chello.at/~easyfilter/bresenham.html
-	int X = X1;
-	int Y = Y1;
-
-	int dx = abs(X2 - X1), sx = X1 < X2 ? 1 : -1;
-	int dy = -abs(Y2 - Y1), sy = Y1 < Y2 ? 1 : -1;
-	int err = dx + dy, e2; // error value e_xy
-
-	for (;;)
-	{
-		SetPixel(X, Y, Color);
-		if (X == X2 && Y == Y2) break;
-		e2 = 2 * err;
-		if (e2 >= dy) { err += dy; X += sx; } // e_xy+e_x > 0
-		if (e2 <= dx) { err += dx; Y += sy; } // e_xy+e_y < 0
 	}
 }
 

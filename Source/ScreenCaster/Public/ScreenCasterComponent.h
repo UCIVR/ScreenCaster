@@ -4,20 +4,23 @@
 
 #include "../../../../webrtc-native/src/examples/libconductor/conductor.h"
 
-#include <optional>
 #include <mutex>
+#include <optional>
 
 #include "DynamicTexture.h"
 
-#include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "CoreMinimal.h"
 #include "ScreenCasterComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTestEvent);
 
-UCLASS(BlueprintType, Blueprintable, Category = "ScreenCaster", META = (DisplayName = "ScreenCaster Component", BlueprintSpawnableComponent))
-class SCREENCASTER_API UScreenCasterComponent : public UActorComponent
-{
+UCLASS(
+	BlueprintType,
+	Blueprintable,
+	Category = "ScreenCaster",
+	META = (DisplayName = "ScreenCaster Component", BlueprintSpawnableComponent))
+class SCREENCASTER_API UScreenCasterComponent : public UActorComponent {
 	GENERATED_BODY()
 
 public:
@@ -30,23 +33,24 @@ protected:
 
 public:
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void
+	TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, Category = "ScreenCaster", META = (DisplayName = "Connect"))
-		bool Connect();
+	bool Connect(const FString& url);
 
 	UFUNCTION(BlueprintCallable, Category = "ScreenCaster", META = (DisplayName = "GetTexture"))
-		UDynamicTexture* GetTexture();
+	UDynamicTexture* GetTexture();
 
 	UPROPERTY()
-	UDynamicTexture* texture{ NewObject<UDynamicTexture>() };
+	UDynamicTexture* texture;
 
 	UPROPERTY(BlueprintAssignable)
-		FTestEvent OnTestEvent;
+	FTestEvent OnTestEvent;
 
 private:
-	std::optional<conductor::observer_handle> observer{};
-	std::mutex texture_lock{};
+	std::optional<conductor::observer_handle> observer {};
+	std::mutex texture_lock {};
 
 	void on_video_frame(std::uint64_t width, std::uint64_t height, conductor::video_callback* callback, void* data);
 };
